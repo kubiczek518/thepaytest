@@ -27,11 +27,12 @@ class Mankind{
     }
 
     public function getPersonById($id){
-        $found = from($this->persons)->where('$o ==> $o->getId() == '.$id)->toArrayDeep();
-        if(sizeof($found) > 0)
-            return array_values($found)[0];
-
-        throw new Exception("Person with ID $id does not exist");
+        try{
+            return from($this->persons)->first('$o ==> $o->getId() == '.$id);
+        }
+        catch(Exception $e){
+            throw new Exception("Person with ID $id does not exist");
+        }
     }
 
     public function getMenPercent(){
